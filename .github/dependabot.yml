@@ -1,0 +1,7 @@
+version: 2
+updates:
+  # npm (JavaScript) の依存関係
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
