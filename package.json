@@ -1,0 +1,14 @@
+{
+  "name": "education-poc",
+  "version": "1.0.0",
+  "description": "教員が自身の授業で使用する教材を作成するためのツールのPoC",
+  "scripts": {
+    "setup": "copyfiles -f node_modules/p5/lib/p5.min.js simulations/lib/"
+  },
+  "dependencies": {
+    "p5": "^2.2.2"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1"
+  }
+}
