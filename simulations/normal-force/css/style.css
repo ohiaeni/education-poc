@@ -1,0 +1,53 @@
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+  position: relative;
+  font-family: "Noto Sans JP", "Noto Sans CJK JP", Meiryo, sans-serif;
+}
+
+#p5Canvas {
+  text-align: center;
+}
+
+#controls {
+  padding: 10px 16px 16px;
+}
+
+/* 凡例 */
+#legend {
+  position: absolute;
+  top: 14px;
+  right: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  line-height: 1.9;
+  pointer-events: none;
+}
+
+#legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#legend .legend-line {
+  display: inline-block;
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  position: relative;
+}
+
+#legend .legend-line::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 7px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
