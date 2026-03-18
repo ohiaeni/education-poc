@@ -4,7 +4,7 @@
   "type": "module",
   "description": "教員が自身の授業で使用する教材を作成するためのツールのPoC",
   "scripts": {
-    "setup": "copyfiles -f node_modules/p5/lib/p5.min.js node_modules/bootstrap/dist/css/bootstrap.min.css node_modules/bootstrap/dist/js/bootstrap.bundle.min.js simulations/lib/",
+    "setup": "copyfiles -f node_modules/p5/lib/p5.min.js node_modules/bootstrap/dist/css/bootstrap.min.css node_modules/bootstrap/dist/css/bootstrap.min.css.map node_modules/bootstrap/dist/js/bootstrap.bundle.min.js node_modules/bootstrap/dist/js/bootstrap.bundle.min.js.map simulations/lib/",
     "test": "vitest run",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
