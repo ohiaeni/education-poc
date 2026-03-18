@@ -1,17 +1,21 @@
-// index.jsはメインのメソッドを呼び出すためのファイルです。
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
 
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
+import { settingInit, elementSelectInit, elementPositionInit, valueInit, updatePhysics, canvasController } from "./init.js";
+import { state } from "./state.js";
+import { getSlopeGeometry } from "./logic.js";
+import { drawSlope, drawAngleArc, drawObject, drawForceArrows } from "./function.js";
+
+// p5.js グローバルモード用にライフサイクル関数を window に登録する
+window.setup = function () {
   settingInit();
   elementSelectInit();
   elementPositionInit();
   valueInit();
-}
+};
 
 // draw関数
 // シミュレーションを実行した後、繰り返し呼び出され続ける。
-function draw() {
+window.draw = function () {
   scale(width / 1000);
   background(245, 245, 240);
 
@@ -19,7 +23,7 @@ function draw() {
   updatePhysics();
 
   // 斜面ジオメトリの計算
-  let geo = getSlopeGeometry(currentAngle);
+  const geo = getSlopeGeometry(state.currentAngle);
 
   // 斜面を描画
   drawSlope(geo);
@@ -28,18 +32,18 @@ function draw() {
   drawAngleArc(geo);
 
   // 斜面上の物体の接触点を計算
-  let contactX = geo.Ax + sliderT * (geo.Cx - geo.Ax);
-  let contactY = geo.Ay + sliderT * (geo.Cy - geo.Ay);
+  const contactX = geo.Ax + state.sliderT * (geo.Cx - geo.Ax);
+  const contactY = geo.Ay + state.sliderT * (geo.Cy - geo.Ay);
 
-  // 物体を描画（lastObjCenterX / lastObjCenterY が更新される）
+  // 物体を描画（state.lastObjCenterX / state.lastObjCenterY が更新される）
   drawObject(contactX, contactY, geo.theta);
 
   // 力の矢印を物体の中心から描画
-  drawForceArrows(lastObjCenterX, lastObjCenterY, geo.theta, currentMass, currentGravity);
-}
+  drawForceArrows(state.lastObjCenterX, state.lastObjCenterY, geo.theta, state.currentMass, state.currentGravity);
+};
 
 // windowResized関数
 // デバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
+window.windowResized = function () {
   canvasController.resizeScreen();
-}
+};

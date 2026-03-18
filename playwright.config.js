@@ -8,8 +8,8 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   webServer: {
-    // simulations/ をルートとして配信することで ../../lib/ のパスが正しく解決される
-    command: "npx vite simulations --port 5173",
+    // npm run setup で lib アセットをコピーしてから simulations/ をルートとして Vite を起動する
+    command: "npm run setup && npx vite simulations --port 5173",
     port: 5173,
     reuseExistingServer: !process.env.CI,
     timeout: 30000,
