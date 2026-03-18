@@ -11,6 +11,9 @@ jobs:
   test:
     name: Run tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -euo pipefail
 
     steps:
       - name: Checkout repository
@@ -23,21 +26,13 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: |
-          set -euo pipefail
-          npm ci
+        run: npm ci
 
       - name: Install Playwright browsers
-        run: |
-          set -euo pipefail
-          npx playwright install
+        run: npx playwright install
 
       - name: Run unit tests
-        run: |
-          set -euo pipefail
-          npm test
+        run: npm test
 
       - name: Run E2E tests
-        run: |
-          set -euo pipefail
-          npm run test:e2e
+        run: npm run test:e2e
