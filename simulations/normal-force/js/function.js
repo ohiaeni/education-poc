@@ -82,6 +82,12 @@ function drawForceArrows(cx, cy, theta, m, g) {
   // 矢印の長さスケール：合力の矢印が約100ロジカルpxになるように
   const SCALE = 100 / mg;
 
+  // theta（ラジアン）を度数に変換して logic.js の純粋関数に渡す
+  const angleDeg = theta * (180 / Math.PI);
+  // logic.js の calculateNormalForce / calculateSlopeForce を使って力の大きさを計算
+  const fnMag = window._nfLogic.calculateNormalForce(m, g, angleDeg); // N = mg cosθ
+  const fsMag = window._nfLogic.calculateSlopeForce(m, g, angleDeg);  // F = mg sinθ
+
   // 斜面方向の単位ベクトル（A→C, 下向き）: (cos θ, sin θ)
   let sx = cos(theta);
   let sy = sin(theta);
@@ -102,7 +108,7 @@ function drawForceArrows(cx, cy, theta, m, g) {
   drawForceLabel(cx + 30, cy + gLen * 0.6, "mg", color(30, 30, 30));
 
   // 2. 斜面方向成分（斜面に沿って下方向）: mg sin θ
-  let fsLen = mg * sin(theta) * SCALE;
+  let fsLen = fsMag * SCALE;
   push();
   stroke(0, 100, 200);
   fill(0, 100, 200);
@@ -118,7 +124,7 @@ function drawForceArrows(cx, cy, theta, m, g) {
   );
 
   // 3. 斜面に垂直な成分（斜面へ向かう方向）: mg cos θ
-  let fnLen = mg * cos(theta) * SCALE;
+  let fnLen = fnMag * SCALE;
   push();
   stroke(0, 160, 80);
   fill(0, 160, 80);
@@ -201,24 +207,12 @@ function drawAngleArc(geo) {
 
 /**
  * 斜面のジオメトリを計算して返す（ロジカル座標 1000x562 基準）。
+ * 実装は logic.js の getSlopeGeometry() に委譲する。
  * @param {number} angleDeg 角度（度数）
  * @returns {{Ax,Ay,Bx,By,Cx,Cy,theta,slopeLen}}
  */
 function getSlopeGeometry(angleDeg) {
-  let theta = radians(constrain(angleDeg, 1, 80));
-  // C: 斜面の下端（右下）固定
-  let Cx = 810;
-  let Cy = 460;
-  // 斜面の長さ（ロジカルpx）
-  let slopeLen = 560;
-  // A: 斜面の上端（左上）
-  let Ax = Cx - slopeLen * cos(theta);
-  let Ay = Cy - slopeLen * sin(theta);
-  // B: 直角頂点（Aの真下）
-  let Bx = Ax;
-  let By = Cy;
-
-  return { Ax, Ay, Bx, By, Cx, Cy, theta, slopeLen };
+  return window._nfLogic.getSlopeGeometry(angleDeg);
 }
 
 /**

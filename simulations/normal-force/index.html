@@ -103,6 +103,9 @@
       </div>
     </div>
 
+    <!-- logic-browser.js は type="module" で読み込まれ、logic.js の純粋関数を window._nfLogic に公開する -->
+    <!-- モジュールスクリプトは defer 実行のため window.load より前に完了し、p5.js の setup()/draw() から安全に参照できる -->
+    <script type="module" src="./js/logic-browser.js"></script>
     <!-- スクリプトはボディ末尾に配置。p5.js → class.js → function.js → elementFunction.js → init.js → index.js の順に読み込む -->
     <script src="../../lib/bootstrap.bundle.min.js"></script>
     <script src="../../lib/p5.min.js"></script>

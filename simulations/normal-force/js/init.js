@@ -68,17 +68,21 @@ function resetSimulation() {
 
 /**
  * フレームごとに物理演算を更新する。
+ * 実装は logic.js の updatePhysicsStep() に委譲する。
  */
 function updatePhysics() {
   if (!isRunning) return;
 
-  let dt = 1 / FPS;
-  let theta = radians(currentAngle);
-  let a = currentGravity * sin(theta); // 斜面に沿った加速度 (m/s²)
-
-  objVelocity += a * dt;
-  let ds = objVelocity * dt; // このフレームの移動距離 (m)
-  sliderT += ds / SLOPE_PHYS_LEN; // 正規化位置を更新
+  const dt = 1 / FPS;
+  const result = window._nfLogic.updatePhysicsStep(
+    objVelocity,
+    sliderT,
+    dt,
+    currentGravity,
+    currentAngle
+  );
+  objVelocity = result.velocity;
+  sliderT = result.sliderT;
 
   if (sliderT >= 1) {
     // 下端に到達したらリセット

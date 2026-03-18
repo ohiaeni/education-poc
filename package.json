@@ -1,15 +1,24 @@
 {
   "name": "education-poc",
   "version": "1.0.0",
+  "type": "module",
   "description": "教員が自身の授業で使用する教材を作成するためのツールのPoC",
   "scripts": {
-    "setup": "copyfiles -f node_modules/p5/lib/p5.min.js node_modules/bootstrap/dist/css/bootstrap.min.css node_modules/bootstrap/dist/js/bootstrap.bundle.min.js simulations/lib/"
+    "setup": "copyfiles -f node_modules/p5/lib/p5.min.js node_modules/bootstrap/dist/css/bootstrap.min.css node_modules/bootstrap/dist/js/bootstrap.bundle.min.js simulations/lib/",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test tests/e2e/normal-force/ui.spec.js",
+    "test:e2e:e2e": "playwright test tests/e2e/normal-force/e2e.spec.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
     "p5": "^2.2.2"
   },
   "devDependencies": {
-    "copyfiles": "^2.4.1"
+    "@playwright/test": "^1.58.2",
+    "copyfiles": "^2.4.1",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.0"
   }
 }
