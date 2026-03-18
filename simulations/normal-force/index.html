@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link href="../../lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="../lib/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
@@ -30,19 +30,31 @@
       <div id="p5Canvas"></div>
       <div id="legend">
         <div class="legend-item">
-          <span class="legend-line" style="background:#1e1e1e;color:#1e1e1e;"></span>
+          <span
+            class="legend-line"
+            style="background: #1e1e1e; color: #1e1e1e"
+          ></span>
           <span>重力 (mg)</span>
         </div>
         <div class="legend-item">
-          <span class="legend-line" style="background:#0064c8;color:#0064c8;"></span>
+          <span
+            class="legend-line"
+            style="background: #0064c8; color: #0064c8"
+          ></span>
           <span>斜面方向成分 (mg sinθ)</span>
         </div>
         <div class="legend-item">
-          <span class="legend-line" style="background:#00a050;color:#00a050;"></span>
+          <span
+            class="legend-line"
+            style="background: #00a050; color: #00a050"
+          ></span>
           <span>斜面垂直成分 (mg cosθ)</span>
         </div>
         <div class="legend-item">
-          <span class="legend-line" style="background:#c80000;color:#c80000;"></span>
+          <span
+            class="legend-line"
+            style="background: #c80000; color: #c80000"
+          ></span>
           <span>垂直抗力 (N)</span>
         </div>
       </div>
@@ -54,13 +66,18 @@
           <button id="startBtn" class="btn btn-outline-light">スタート</button>
         </div>
         <div class="col-auto">
-          <button id="stopBtn" class="btn btn-outline-secondary">ストップ</button>
+          <button id="stopBtn" class="btn btn-outline-secondary">
+            ストップ
+          </button>
         </div>
       </div>
       <div class="row justify-content-center g-2">
         <div class="col-auto">
           <div class="input-group input-group-sm">
-            <span class="input-group-text bg-secondary text-white border-secondary">角度 (°)</span>
+            <span
+              class="input-group-text bg-secondary text-white border-secondary"
+              >角度 (°)</span
+            >
             <input
               type="number"
               id="angleInput"
@@ -74,7 +91,10 @@
         </div>
         <div class="col-auto">
           <div class="input-group input-group-sm">
-            <span class="input-group-text bg-secondary text-white border-secondary">質量 (kg)</span>
+            <span
+              class="input-group-text bg-secondary text-white border-secondary"
+              >質量 (kg)</span
+            >
             <input
               type="number"
               id="massInput"
@@ -88,7 +108,10 @@
         </div>
         <div class="col-auto">
           <div class="input-group input-group-sm">
-            <span class="input-group-text bg-secondary text-white border-secondary">重力加速度 (m/s²)</span>
+            <span
+              class="input-group-text bg-secondary text-white border-secondary"
+              >重力加速度 (m/s²)</span
+            >
             <input
               type="number"
               id="gravityInput"
@@ -104,8 +127,8 @@
     </div>
 
     <!-- スクリプトはボディ末尾に配置。p5.js → class.js → function.js → elementFunction.js → init.js → index.js の順に読み込む -->
-    <script src="../../lib/bootstrap.bundle.min.js"></script>
-    <script src="../../lib/p5.min.js"></script>
+    <script src="../lib/bootstrap.bundle.min.js"></script>
+    <script src="../lib/p5.min.js"></script>
     <script src="./js/class.js"></script>
     <script src="./js/function.js"></script>
     <script src="./js/elementFunction.js"></script>
