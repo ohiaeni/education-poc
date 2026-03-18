@@ -13,7 +13,7 @@ import {
   drawBackground,
   drawAngleArrow,
   drawBall,
-  drawSecondMarkers,
+  drawTrajectoryMarkers,
   drawResults,
 } from "./function.js";
 
@@ -42,19 +42,17 @@ window.draw = function () {
   // 発射角度の矢印（常に表示）
   drawAngleArrow(state.currentAngle);
 
+  // 軌跡マーカーを描画（飛行中・着地後）
   if (state.isRunning || state.isLanded) {
-    // 1秒ごとのマーカーを描画
-    drawSecondMarkers(state.scale);
+    drawTrajectoryMarkers();
+  }
 
-    if (state.isRunning) {
-      // 飛行中の球を描画
-      drawBall(state.scale);
-    }
+  // 球を常に描画（未発射時は発射点、飛行中は現在位置、着地後は着地点）
+  drawBall();
 
-    // 着地後に結果を表示
-    if (state.isLanded) {
-      drawResults(state.maxHeight, state.range);
-    }
+  // 着地後に結果を表示
+  if (state.isLanded) {
+    drawResults(state.maxHeight, state.range);
   }
 };
 

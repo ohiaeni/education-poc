@@ -5,7 +5,7 @@ import { calculatePosition } from "./logic.js";
 
 /** 球の半径（論理px） */
 const BALL_RADIUS = 20;
-/** 1秒マーカーの半径（論理px） */
+/** 軌跡マーカーの半径（論理px） */
 const MARKER_RADIUS = 20;
 
 /**
@@ -85,18 +85,32 @@ export function drawArrow(x1, y1, x2, y2, headSize = 12) {
 }
 
 /**
- * 現在の球の位置を描画する。
- * @param {number} scale 描画スケール（論理px / m）
+ * 球を描画する。
+ * - 未発射時: 発射点（LAUNCH_X_LOGICAL, GROUND_Y_LOGICAL）
+ * - 飛行中: 現在の物理座標
+ * - 着地後: 着地点（LAUNCH_X_LOGICAL + range * scale, GROUND_Y_LOGICAL）
  */
-export function drawBall(scale) {
-  const { x, y } = calculatePosition(
-    state.currentVelocity,
-    state.currentAngle,
-    state.time,
-    state.currentGravity
-  );
-  const cx = LAUNCH_X_LOGICAL + x * scale;
-  const cy = GROUND_Y_LOGICAL - y * scale;
+export function drawBall() {
+  let cx, cy;
+  if (state.isLanded) {
+    // 着地位置に球を表示し続ける
+    cx = LAUNCH_X_LOGICAL + state.range * state.scale;
+    cy = GROUND_Y_LOGICAL;
+  } else if (state.isRunning) {
+    // 現在の物理座標に表示
+    const { x, y } = calculatePosition(
+      state.currentVelocity,
+      state.currentAngle,
+      state.time,
+      state.currentGravity
+    );
+    cx = LAUNCH_X_LOGICAL + x * state.scale;
+    cy = GROUND_Y_LOGICAL - y * state.scale;
+  } else {
+    // 発射前は発射点に表示
+    cx = LAUNCH_X_LOGICAL;
+    cy = GROUND_Y_LOGICAL;
+  }
 
   push();
   fill(255, 255, 255);
@@ -107,16 +121,16 @@ export function drawBall(scale) {
 }
 
 /**
- * 1秒ごとの軌跡マーカーを破線の円で描画する。
- * @param {number} scale 描画スケール（論理px / m）
+ * 軌跡マーカーを破線の円で描画する。
+ * state.trajectoryMarkers の先頭 shownMarkerCount 個を描画する。
  */
-export function drawSecondMarkers(scale) {
-  const markers = state.secondMarkers.slice(0, state.shownMarkerCount);
+export function drawTrajectoryMarkers() {
+  const markers = state.trajectoryMarkers.slice(0, state.shownMarkerCount);
 
   for (let i = 0; i < markers.length; i++) {
     const { x, y } = markers[i];
-    const cx = LAUNCH_X_LOGICAL + x * scale;
-    const cy = GROUND_Y_LOGICAL - y * scale;
+    const cx = LAUNCH_X_LOGICAL + x * state.scale;
+    const cy = GROUND_Y_LOGICAL - y * state.scale;
 
     push();
     drawingContext.setLineDash([6, 4]);
@@ -125,15 +139,6 @@ export function drawSecondMarkers(scale) {
     strokeWeight(1.5);
     circle(cx, cy, MARKER_RADIUS * 2);
     drawingContext.setLineDash([]);
-    pop();
-
-    // 秒数ラベル
-    push();
-    fill(60, 60, 60);
-    noStroke();
-    textSize(14);
-    textAlign(CENTER, BOTTOM);
-    text((i + 1) + "s", cx, cy - MARKER_RADIUS - 4);
     pop();
   }
 }
@@ -153,7 +158,6 @@ export function drawResults(maxHeight, range) {
   fill(20, 20, 20);
   noStroke();
   textSize(17);
-  textAlign(LEFT, TOP);
   textAlign(LEFT, TOP);
   text("最高の高さ:", 665, 45);
   textAlign(RIGHT, TOP);

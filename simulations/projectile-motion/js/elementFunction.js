@@ -1,12 +1,12 @@
 // elementFunction.js は仮想DOMメソッド管理専用のファイルです。
 
-import { state, resetSimulation, AVAIL_W_LOGICAL, AVAIL_H_LOGICAL } from "./state.js";
+import { state, resetSimulation, AVAIL_W_LOGICAL, AVAIL_H_LOGICAL, TRAJECTORY_INTERVAL } from "./state.js";
 import {
   calculateFlightTime,
   calculateMaxHeight,
   calculateRange,
   calculateScale,
-  getSecondMarkers,
+  getIntervalMarkers,
 } from "./logic.js";
 
 /**
@@ -70,7 +70,7 @@ function launchProjectile() {
   state.flightTime = calculateFlightTime(v0, angle, g);
   state.maxHeight = calculateMaxHeight(v0, angle, g);
   state.range = calculateRange(v0, angle, g);
-  state.secondMarkers = getSecondMarkers(v0, angle, g);
+  state.trajectoryMarkers = getIntervalMarkers(v0, angle, g, TRAJECTORY_INTERVAL);
   state.shownMarkerCount = 0;
   state.time = 0;
   state.isRunning = true;

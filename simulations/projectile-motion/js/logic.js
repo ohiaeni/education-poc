@@ -59,6 +59,24 @@ export function calculateRange(v0, angleDeg, g = 9.8) {
 }
 
 /**
+ * 指定した時間間隔ごとの軌跡マーカー位置を計算して返す。
+ * @param {number} v0 初速 (m/s)
+ * @param {number} angleDeg 発射角度（度数）
+ * @param {number} g 重力加速度 (m/s²)
+ * @param {number} interval 時間間隔 (s)
+ * @returns {Array<{x: number, y: number}>} 各間隔時刻での位置
+ */
+export function getIntervalMarkers(v0, angleDeg, g = 9.8, interval = 1) {
+  const T = calculateFlightTime(v0, angleDeg, g);
+  const markers = [];
+  const count = Math.floor(T / interval);
+  for (let i = 1; i <= count; i++) {
+    markers.push(calculatePosition(v0, angleDeg, i * interval, g));
+  }
+  return markers;
+}
+
+/**
  * 1秒ごとの軌跡マーカー位置を計算して返す。
  * @param {number} v0 初速 (m/s)
  * @param {number} angleDeg 発射角度（度数）
@@ -66,12 +84,7 @@ export function calculateRange(v0, angleDeg, g = 9.8) {
  * @returns {Array<{x: number, y: number}>} 各整数秒での位置
  */
 export function getSecondMarkers(v0, angleDeg, g = 9.8) {
-  const T = calculateFlightTime(v0, angleDeg, g);
-  const markers = [];
-  for (let t = 1; t <= Math.floor(T); t++) {
-    markers.push(calculatePosition(v0, angleDeg, t, g));
-  }
-  return markers;
+  return getIntervalMarkers(v0, angleDeg, g, 1);
 }
 
 /**

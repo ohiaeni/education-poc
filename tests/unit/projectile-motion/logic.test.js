@@ -5,6 +5,7 @@ import {
   calculateMaxHeight,
   calculateRange,
   getSecondMarkers,
+  getIntervalMarkers,
   calculateScale,
 } from "../../../simulations/projectile-motion/js/logic.js";
 
@@ -198,6 +199,65 @@ describe("getSecondMarkers", () => {
     });
   });
 });
+
+describe("getIntervalMarkers", () => {
+  it("interval=0.1 のとき floor(T/0.1) 個のマーカーを返す", () => {
+    // θ=45°, v0=20 m/s: T = 2*20*sin45°/9.8 ≈ 2.886s → floor(T/0.1) = 28
+    const v0 = 20;
+    const angleDeg = 45;
+    const g = 9.8;
+    const T = calculateFlightTime(v0, angleDeg, g);
+    const markers = getIntervalMarkers(v0, angleDeg, g, 0.1);
+    expect(markers).toHaveLength(Math.floor(T / 0.1));
+  });
+
+  it("interval=1 のとき getSecondMarkers と同じ結果を返す", () => {
+    const v0 = 20;
+    const angleDeg = 45;
+    const g = 9.8;
+    const markersInterval = getIntervalMarkers(v0, angleDeg, g, 1);
+    const markersSecond = getSecondMarkers(v0, angleDeg, g);
+    expect(markersInterval).toHaveLength(markersSecond.length);
+    markersInterval.forEach((m, i) => {
+      expect(m.x).toBeCloseTo(markersSecond[i].x, 5);
+      expect(m.y).toBeCloseTo(markersSecond[i].y, 5);
+    });
+  });
+
+  it("飛行時間 < interval のとき空配列を返す", () => {
+    // θ=30°, v0=2 m/s: T ≈ 0.20s < 0.5s
+    const markers = getIntervalMarkers(2, 30, 9.8, 0.5);
+    expect(markers).toHaveLength(0);
+  });
+
+  it("各マーカーの y 座標は 0 以上（地面より上）", () => {
+    const markers = getIntervalMarkers(20, 45, 9.8, 0.1);
+    for (const m of markers) {
+      expect(m.y).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("各マーカーの x 座標は時刻が増えるほど大きい", () => {
+    const markers = getIntervalMarkers(20, 45, 9.8, 0.1);
+    for (let i = 1; i < markers.length; i++) {
+      expect(markers[i].x).toBeGreaterThan(markers[i - 1].x);
+    }
+  });
+
+  it("各マーカーの位置は calculatePosition(v0, angle, i*interval, g) と一致する", () => {
+    const v0 = 15;
+    const angleDeg = 30;
+    const g = 9.8;
+    const interval = 0.1;
+    const markers = getIntervalMarkers(v0, angleDeg, g, interval);
+    markers.forEach((m, i) => {
+      const expected = calculatePosition(v0, angleDeg, (i + 1) * interval, g);
+      expect(m.x).toBeCloseTo(expected.x, 5);
+      expect(m.y).toBeCloseTo(expected.y, 5);
+    });
+  });
+});
+
 
 describe("calculateScale", () => {
   it("正のスケールを返す", () => {

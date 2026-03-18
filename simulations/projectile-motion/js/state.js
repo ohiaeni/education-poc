@@ -8,6 +8,8 @@ export const GROUND_Y_LOGICAL = 480;
 export const AVAIL_W_LOGICAL = 860;
 /** 軌跡に使える論理高さ */
 export const AVAIL_H_LOGICAL = 380;
+/** 軌跡マーカーの時間間隔 (s) */
+export const TRAJECTORY_INTERVAL = 0.1;
 
 /** シミュレーションの共有状態 */
 export const state = {
@@ -25,8 +27,8 @@ export const state = {
   /** 描画スケール（論理ピクセル / メートル） */
   scale: 10,
 
-  /** 1秒ごとの物理座標マーカー [{x, y}] */
-  secondMarkers: [],
+  /** 0.1秒ごとの物理座標マーカー [{x, y}] */
+  trajectoryMarkers: [],
   /** 現在表示すべきマーカーの数 */
   shownMarkerCount: 0,
 
@@ -51,6 +53,6 @@ export function resetSimulation() {
   state.maxHeight = 0;
   state.range = 0;
   state.flightTime = 0;
-  state.secondMarkers = [];
+  state.trajectoryMarkers = [];
   state.scale = 10;
 }
