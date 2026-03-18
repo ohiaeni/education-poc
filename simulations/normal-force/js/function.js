@@ -1,5 +1,10 @@
 // function.jsはその他のメソッド管理専用のファイルです。
 
+import { getSlopeGeometry, calculateNormalForce, calculateSlopeForce } from "./logic.js";
+import { state } from "./state.js";
+
+export { getSlopeGeometry };
+
 /**
  * 矢印を描画する。
  * @param {number} x1 始点X
@@ -8,7 +13,7 @@
  * @param {number} y2 終点Y
  * @param {number} headSize 矢頭サイズ（ロジカルピクセル）
  */
-function drawArrow(x1, y1, x2, y2, headSize = 12) {
+export function drawArrow(x1, y1, x2, y2, headSize = 12) {
   let dx = x2 - x1;
   let dy = y2 - y1;
   let len = sqrt(dx * dx + dy * dy);
@@ -29,7 +34,7 @@ function drawArrow(x1, y1, x2, y2, headSize = 12) {
  * 斜面（三角形）を描画する。
  * @param {{Ax,Ay,Bx,By,Cx,Cy}} geo getSlopeGeometry の返り値
  */
-function drawSlope(geo) {
+export function drawSlope(geo) {
   push();
   fill(255);
   stroke(0);
@@ -44,7 +49,7 @@ function drawSlope(geo) {
  * @param {number} cy 物体の中心Y（スロープ面上）
  * @param {number} theta 斜面の角度（ラジアン）
  */
-function drawObject(cx, cy, theta) {
+export function drawObject(cx, cy, theta) {
   const OBJ_W = 50;
   const OBJ_H = 50;
   // 法線方向（スロープ面から外へ向かう方向）: (sin θ, -cos θ)  in canvas coords
@@ -64,9 +69,9 @@ function drawObject(cx, cy, theta) {
   rect(0, 0, OBJ_W, OBJ_H);
   pop();
 
-  // 中心座標を返すためにグローバル変数に保存（index.jsから参照）
-  lastObjCenterX = ocx;
-  lastObjCenterY = ocy;
+  // 中心座標を state に保存（index.js から参照）
+  state.lastObjCenterX = ocx;
+  state.lastObjCenterY = ocy;
 }
 
 /**
@@ -77,10 +82,16 @@ function drawObject(cx, cy, theta) {
  * @param {number} m 質量 (kg)
  * @param {number} g 重力加速度 (m/s²)
  */
-function drawForceArrows(cx, cy, theta, m, g) {
+export function drawForceArrows(cx, cy, theta, m, g) {
   const mg = m * g;
   // 矢印の長さスケール：合力の矢印が約100ロジカルpxになるように
   const SCALE = 100 / mg;
+
+  // theta（ラジアン）を度数に変換して logic.js の純粋関数に渡す
+  const angleDeg = theta * (180 / Math.PI);
+  // logic.js の calculateNormalForce / calculateSlopeForce を使って力の大きさを計算
+  const fnMag = calculateNormalForce(m, g, angleDeg); // N = mg cosθ
+  const fsMag = calculateSlopeForce(m, g, angleDeg);  // F = mg sinθ
 
   // 斜面方向の単位ベクトル（A→C, 下向き）: (cos θ, sin θ)
   let sx = cos(theta);
@@ -102,7 +113,7 @@ function drawForceArrows(cx, cy, theta, m, g) {
   drawForceLabel(cx + 30, cy + gLen * 0.6, "mg", color(30, 30, 30));
 
   // 2. 斜面方向成分（斜面に沿って下方向）: mg sin θ
-  let fsLen = mg * sin(theta) * SCALE;
+  let fsLen = fsMag * SCALE;
   push();
   stroke(0, 100, 200);
   fill(0, 100, 200);
@@ -118,7 +129,7 @@ function drawForceArrows(cx, cy, theta, m, g) {
   );
 
   // 3. 斜面に垂直な成分（斜面へ向かう方向）: mg cos θ
-  let fnLen = mg * cos(theta) * SCALE;
+  let fnLen = fnMag * SCALE;
   push();
   stroke(0, 160, 80);
   fill(0, 160, 80);
@@ -156,7 +167,7 @@ function drawForceArrows(cx, cy, theta, m, g) {
  * @param {string} label テキスト
  * @param {p5.Color} col テキスト色
  */
-function drawForceLabel(x, y, label, col) {
+export function drawForceLabel(x, y, label, col) {
   push();
   fill(col);
   noStroke();
@@ -171,7 +182,7 @@ function drawForceLabel(x, y, label, col) {
  * 角度の弧と数値を描画する。
  * @param {{Ax,Ay,Bx,By,Cx,Cy,theta}} geo
  */
-function drawAngleArc(geo) {
+export function drawAngleArc(geo) {
   let r = 50;
   // 角度は C 頂点（右下）の角度ではなく、底辺と斜面のなす角（theta）
   // C頂点で arc を描く: 底辺（左向き π）から斜面方向（上向き左 π + theta）
@@ -200,30 +211,6 @@ function drawAngleArc(geo) {
 }
 
 /**
- * 斜面のジオメトリを計算して返す（ロジカル座標 1000x562 基準）。
- * @param {number} angleDeg 角度（度数）
- * @returns {{Ax,Ay,Bx,By,Cx,Cy,theta,slopeLen}}
- */
-function getSlopeGeometry(angleDeg) {
-  let theta = radians(constrain(angleDeg, 1, 80));
-  // C: 斜面の下端（右下）固定
-  let Cx = 810;
-  let Cy = 460;
-  // 斜面の長さ（ロジカルpx）
-  let slopeLen = 560;
-  // A: 斜面の上端（左上）
-  let Ax = Cx - slopeLen * cos(theta);
-  let Ay = Cy - slopeLen * sin(theta);
-  // B: 直角頂点（Aの真下）
-  let Bx = Ax;
-  let By = Cy;
-
-  return { Ax, Ay, Bx, By, Cx, Cy, theta, slopeLen };
-}
-
-/**
  * 凡例はHTMLオーバーレイ（#legend）で表示するため、
  * このキャンバス版関数は使用しません。index.html の #legend 要素を参照してください。
  */
-
-

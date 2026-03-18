@@ -1,26 +1,28 @@
 // elementFunction.jsは仮想DOMメソッド管理専用のファイルです。
 
+import { state, resetSimulation } from "./state.js";
+
 /**
  * スタートボタン押下時の処理
  */
-function onStartClick() {
-  isRunning = true;
+export function onStartClick() {
+  state.isRunning = true;
 }
 
 /**
  * ストップボタン押下時の処理
  */
-function onStopClick() {
-  isRunning = false;
+export function onStopClick() {
+  state.isRunning = false;
 }
 
 /**
  * 角度入力変更時の処理
  */
-function onAngleChange() {
-  let val = parseFloat(document.getElementById("angleInput").value);
+export function onAngleChange() {
+  const val = parseFloat(document.getElementById("angleInput").value);
   if (!isNaN(val)) {
-    currentAngle = constrain(val, 1, 80);
+    state.currentAngle = Math.max(1, Math.min(80, val));
     // 角度変更時はシミュレーションをリセット
     resetSimulation();
   }
@@ -29,19 +31,19 @@ function onAngleChange() {
 /**
  * 質量入力変更時の処理
  */
-function onMassChange() {
-  let val = parseFloat(document.getElementById("massInput").value);
+export function onMassChange() {
+  const val = parseFloat(document.getElementById("massInput").value);
   if (!isNaN(val) && val > 0) {
-    currentMass = val;
+    state.currentMass = val;
   }
 }
 
 /**
  * 重力加速度入力変更時の処理
  */
-function onGravityChange() {
-  let val = parseFloat(document.getElementById("gravityInput").value);
+export function onGravityChange() {
+  const val = parseFloat(document.getElementById("gravityInput").value);
   if (!isNaN(val) && val > 0) {
-    currentGravity = val;
+    state.currentGravity = val;
   }
 }
