@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>シミュレーション一覧 | Bicpema</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="bg-dark text-light">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Bicpema</a>
+        <span class="text-light fw-lighter">シミュレーション一覧</span>
+      </div>
+    </nav>
+
+    <main id="mainContent">
+      <div class="container">
+        <h1 class="h4 mb-4 fw-normal">シミュレーション一覧</h1>
+        <div class="row g-4">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div
+              class="card bg-secondary-subtle border-secondary simulation-card h-100"
+              data-bs-theme="dark"
+            >
+              <div class="card-body">
+                <h5 class="card-title text-light">
+                  垂直抗力のシミュレーション
+                </h5>
+                <p class="card-text text-secondary small">
+                  斜面上の物体に働く垂直抗力・重力成分をインタラクティブに確認できるシミュレーションです。
+                </p>
+              </div>
+              <div class="card-footer bg-transparent border-secondary">
+                <a href="./normal-force/" class="btn btn-outline-light btn-sm"
+                  >開く</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div
+              class="card bg-secondary-subtle border-secondary simulation-card h-100"
+              data-bs-theme="dark"
+            >
+              <div class="card-body">
+                <h5 class="card-title text-light">
+                  自由落下のシミュレーション
+                </h5>
+                <p class="card-text text-secondary small">
+                  重力加速度や初速度を変化させながら自由落下の運動をインタラクティブに確認できるシミュレーションです。
+                </p>
+              </div>
+              <div class="card-footer bg-transparent border-secondary">
+                <a href="./free-fall/" class="btn btn-outline-light btn-sm"
+                  >開く</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div
+              class="card bg-secondary-subtle border-secondary simulation-card h-100"
+              data-bs-theme="dark"
+            >
+              <div class="card-body">
+                <h5 class="card-title text-light">磁石のシミュレーション</h5>
+                <p class="card-text text-secondary small">
+                  磁石の引力・斥力をインタラクティブに確認できるシミュレーションです。
+                </p>
+              </div>
+              <div class="card-footer bg-transparent border-secondary">
+                <a href="./magnets/" class="btn btn-outline-light btn-sm"
+                  >開く</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./lib/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

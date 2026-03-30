@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>磁石のシミュレーション</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../lib/bootstrap.min.css" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Bicpema</a>
+        <span class="text-light fw-lighter">磁石のシミュレーション</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+    </div>
+
+    <div class="container-fluid" id="controls">
+      <div class="row justify-content-center align-items-center g-2 flex-wrap">
+        <!-- 全磁石クリア -->
+        <div class="col-auto">
+          <button id="clearBtn" class="btn btn-outline-warning btn-sm">
+            全磁石クリア
+          </button>
+        </div>
+
+        <!-- 磁力線トグル -->
+        <div class="col-auto">
+          <div
+            class="form-check form-switch mb-0 d-flex align-items-center gap-2"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="fieldLineCheckbox"
+              role="switch"
+            />
+            <label
+              class="form-check-label text-light small"
+              for="fieldLineCheckbox"
+            >
+              磁力線
+            </label>
+          </div>
+        </div>
+
+        <!-- 磁力線本数スライダー -->
+        <div class="col-auto d-flex align-items-center gap-2">
+          <label class="text-light text-nowrap small" for="nSlider">
+            本数:&nbsp;<span id="nValue">5</span>
+          </label>
+          <input
+            type="range"
+            class="form-range ctrl-range"
+            id="nSlider"
+            min="1"
+            max="8"
+            step="1"
+            value="5"
+          />
+        </div>
+
+        <!-- 等磁位線トグル -->
+        <div class="col-auto">
+          <div
+            class="form-check form-switch mb-0 d-flex align-items-center gap-2"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="potentialCheckbox"
+              role="switch"
+            />
+            <label
+              class="form-check-label text-light small"
+              for="potentialCheckbox"
+            >
+              等磁位線
+            </label>
+          </div>
+        </div>
+
+        <!-- 等磁位間隔スライダー -->
+        <div class="col-auto d-flex align-items-center gap-2">
+          <label class="text-light text-nowrap small" for="vstepSlider">
+            間隔:&nbsp;<span id="vstepValue">4</span>
+          </label>
+          <input
+            type="range"
+            class="form-range ctrl-range"
+            id="vstepSlider"
+            min="1"
+            max="8"
+            step="1"
+            value="4"
+          />
+        </div>
+      </div>
+
+      <!-- 操作ヒント -->
+      <div class="row justify-content-center mt-1">
+        <div class="col-auto">
+          <small class="text-secondary">
+            クリック: 磁石追加 &nbsp;/&nbsp; 右クリック: 削除 &nbsp;/&nbsp;
+            ドラッグ: 移動 &nbsp;/&nbsp; N極ドラッグ: 回転
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <script src="../lib/bootstrap.bundle.min.js"></script>
+    <script src="../lib/p5.min.js"></script>
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>

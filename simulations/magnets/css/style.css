@@ -1,0 +1,25 @@
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+}
+
+#p5Canvas {
+  text-align: center;
+}
+
+#controls {
+  padding: 8px 16px 10px;
+  background-color: #1e1e1e;
+  border-top: 1px solid #333;
+}
+
+.ctrl-range {
+  width: 110px;
+  accent-color: #6ea8fe;
+}
+
+/* p5 キャンバス上でテキスト選択を無効化してドラッグ操作を快適に */
+#p5Canvas canvas {
+  user-select: none;
+  -webkit-user-select: none;
+}
