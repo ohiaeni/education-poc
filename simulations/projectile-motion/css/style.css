@@ -1,0 +1,14 @@
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+  position: relative;
+  font-family: "Noto Sans JP", "Noto Sans CJK JP", Meiryo, sans-serif;
+}
+
+#p5Canvas {
+  text-align: center;
+}
+
+#controls {
+  padding: 10px 16px 16px;
+}
