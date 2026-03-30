@@ -1,58 +1,20 @@
-# education-poc
+# シミュレーション作成手順
 
-教員が自身の授業で使用する教材を作成するためのツールのPoCを作成するリポジトリです。
-
-## 🔧 必要なもの（Prerequisites）
-
-- Node.js 20 以上
-- npm（Node.js に同梱）
-
-## 🚀 はじめのセットアップ
-
-```bash
-# リポジトリをクローン
-git clone <repository-url>
-cd education-poc
-
-# 依存関係をインストール
-npm ci
-
-# p5 / Bootstrap のライブラリをコピー（必要なファイルを simulations/lib/ に配置）
-npm run setup
-```
-
-## 🧪 テスト実行
-
-### 単体テスト（Vitest）
-
-```bash
-npm test
-# または
-npm run test:unit
-```
-
-### E2E テスト（Playwright）
-
-Playwright はブラウザバイナリが必要です。初回またはブラウザがない環境では以下を実行してください。
-
-```bash
-npx playwright install
-```
-
-その後、E2E テストを実行します。
-
-```bash
-npm run test:e2e
-```
-
-特定のテストだけを実行する場合（例: UI スナップショット）:
-
-```bash
-npm run test:e2e:ui
-npm run test:e2e:e2e
-```
-
-## 📁 主要なフォルダ構成
-
-- `simulations/` - シミュレーションの HTML/CSS/JS など
-- `tests/` - Vitest（単体テスト）と Playwright（E2E テスト）
+1. Issues タブを開く。
+2. 「New issue」ボタンをクリックする。
+3. 「Issueテンプレート」を選択する。
+4. タイトルと内容を入力する。
+   - タイトルは「<シミュレーション名>を作成する」の形式にする。
+   - 概要には、シミュレーションの概要を簡潔に説明する。
+   - 詳細には、シミュレーションの画面ラフスケッチの画像、必要な機能を記載する
+   - クローズ条件には以下の内容を記載する。
+     - シミュレーションが動作すること
+     - シミュレーションのテストが通ること
+5. 「Create」ボタンをクリックして Issue を作成する。
+6. 画面右側の「Assignees」で「Assign to Agent」を選択する。
+7. 「Assign」ボタンをクリックして担当者を割り当てる。
+8. 「Agents」タブで、割り当てられたエージェントが Issue を処理していることを確認する。
+9. ある程度時間が経過すると、「Pull Request」が作成される。
+10. 「Pull Requests」タブで、作成された Pull Request を確認する。
+11. Pull Request の内容を確認し、問題がなければ「Merge pull request」ボタンをクリックしてマージする。
+12. マージされたあと「https://ohiaeni.github.io/education-poc/」にアクセスして、シミュレーションが正しく表示されていることを確認する。
