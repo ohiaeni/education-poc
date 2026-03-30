@@ -50,7 +50,31 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
    - ローカルでシミュレーションを動かす（例：`index.html` をブラウザで開く、または簡易サーバーを起動する）。
    - p5 のキャンバスが更新され、コントロールが動き、レスポンシブなレイアウトが維持されることを確認する。
 
-7. **品質チェック（完了条件）**
+7. **一覧ページ（`simulations/index.html`）に追加する**
+   - `simulations/index.html` の `<div class="row g-4">` 内に、既存カードと同じ構造で新しいカードブロックを追記する。
+   - カードのテンプレートは以下の通り（`<slug>` と説明文を実際の値に置き換える）：
+     ```html
+     <div class="col-sm-6 col-md-4 col-lg-3">
+       <div
+         class="card bg-secondary-subtle border-secondary simulation-card h-100"
+         data-bs-theme="dark"
+       >
+         <div class="card-body">
+           <h5 class="card-title text-light">〇〇のシミュレーション</h5>
+           <p class="card-text text-secondary small">
+             シミュレーションの概要を1〜2文で記述する。
+           </p>
+         </div>
+         <div class="card-footer bg-transparent border-secondary">
+           <a href="./<slug>/" class="btn btn-outline-light btn-sm">開く</a>
+         </div>
+       </div>
+     </div>
+     ```
+   - `href` の値は `simulations/<slug>/` に対応するよう `./<slug>/` とする。
+   - カードの順序は追加した順（末尾追記）で問題ない。
+
+8. **品質チェック（完了条件）**
    - コンソールにエラーが出ずにシミュレーションが起動する。
    - インタラクティブなコントロールが Material Design でスタイルされており、アクセシビリティも配慮されている。
    - p5 のスケッチがスムーズに動き（単純なシミュレーションで 30fps 以上）、UI が固まらない。
